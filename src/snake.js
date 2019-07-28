@@ -140,6 +140,8 @@ class Snake extends React.Component {
     }
 
     resetGame = () => {
+        document.getElementById("snakeContainer").focus();
+
         if(this.state.didStart === "Stop"){
             this.toggleGame();
         } // else do nothing
@@ -156,6 +158,9 @@ class Snake extends React.Component {
 
     handleKeyPress= (event) => {
         switch(event.keyCode){
+            case 27:
+                this.handleDismiss();
+                break;
             case 32:
                 this.toggleGame();
                 break;
@@ -201,9 +206,22 @@ class Snake extends React.Component {
         }
     }
 
+    handleDismiss = () => {
+        this.props.dismissGame();
+    }
+
+    componentWillUnmount(){
+        this.resetGame();
+    }
+
+    componentDidMount(){
+        document.getElementById("snakeContainer").focus();
+    }
+
     render() {
         return (
             <div className="background-wrapper">
+                <div className="exit" onClick={this.handleDismiss}>X</div>
                 <div className="buttonWrapper">
                     <span className="gameButton" onClick={this.toggleGame}>{this.state.didStart} Game</span>
                     <span className="gameButton" onClick={this.resetGame}>Reset Game</span>
