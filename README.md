@@ -1,8 +1,6 @@
 ## SoftSnake
 
-This was a one-day challenge project. The idea was to develop a game similar to the classic snake game in one day. After approximately
-5 hours of development this was born. Tailless snake! The tail does not grow unfortunately as I ran out of dev time today to continue 
-working on this project.  
+This project was born as an idea for a one-day-project. The idea was to code as much of the classic snake game as possible in one day. After five hours of development time, I developed the project to the point where it could be played, but without a growing tail. That lives on in "easy mode" in this project. I've decided to finish the project and create "hard mode" which is the classic snake game.
 
 ### Create React App
 

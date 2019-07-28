@@ -15,8 +15,13 @@ class Snake extends React.Component {
                 left: '380px'
             },
             didStart: "Start",
+            // TODO: persist game modes' individual high score when switching game modes
             score: 0,
-            highScore: 0
+            highScore: 0,
+            // Temporarily make hard mode default
+            easyButtID: "notSelected",
+            hardButtID: "selected",
+            mode: 1
         };
     }
 
@@ -131,6 +136,8 @@ class Snake extends React.Component {
                 100
             );
         } else {
+            document.getElementById("snakeContainer").focus();
+
             this.setState({
                 didStart: "Start"
             });
@@ -200,6 +207,12 @@ class Snake extends React.Component {
                     }
                 });
                 break;
+            case 69:
+                this.toggleMode(0);
+                break;
+            case 77:
+                this.toggleMode(1);
+                break;
             case 82:
                 this.resetGame();
                 break;
@@ -218,13 +231,48 @@ class Snake extends React.Component {
         document.getElementById("snakeContainer").focus();
     }
 
+    toggleMode = (nMode) => {
+        if(this.state.didStart === "Stop"){
+            this.resetGame();
+        } // else do nothing
+
+        // Temporarily hard reset on game mode switch
+        this.setState({
+            score: 0,
+            highScore: 0
+        });
+
+        let tempEasy = "selected";
+        let tempHard = "notSelected";
+
+        if(nMode === 1){
+            tempEasy = "notSelected";
+            tempHard = "selected";
+        } // else stay as assigned above if statement
+
+        this.setState({
+            easyButtID: tempEasy,
+            hardButtID: tempHard,
+            mode: nMode
+        });
+
+        document.getElementById("snakeContainer").focus();
+    }
+
+    //TODO: Make game size reactive
+    //TODO: Popup list of keyboard shortcuts
+    //TODO: Make game playable on mobile
+
     render() {
         return (
             <div className="background-wrapper">
                 <div className="exit" onClick={this.handleDismiss}>X</div>
                 <div className="buttonWrapper">
-                    <span className="gameButton" onClick={this.toggleGame}>{this.state.didStart} Game</span>
-                    <span className="gameButton" onClick={this.resetGame}>Reset Game</span>
+                    <span className="diffButton rightButt" id={this.state.easyButtID} onClick={() => this.toggleMode(0)}>Easy Mode</span>
+                    <span className="diffButton leftButt" id={this.state.hardButtID} onClick={() => this.toggleMode(1)}>Hard Mode</span>
+
+                    <span className="gameButton leftButt" onClick={this.toggleGame}>{this.state.didStart} Game</span>
+                    <span className="gameButton rightButt" onClick={this.resetGame}>Reset Game</span>
                 </div>
                 <div id="snakeContainer" tabIndex="1" onKeyDown={(e) => this.handleKeyPress(e)}>
                     <div className="score">{this.state.score}</div>
